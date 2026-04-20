@@ -3,7 +3,7 @@
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"d012322fb2db4c929a66417c1fa40b00":"eac803603f1b2e4658e0f9da317fd05b"}
-http://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$151/index.mpd/Manifest.mpd?start=LIVE&end=END&device=CMAFDASH_HEVC_UHD
+https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$151/index.mpd/Manifest.mpd?start=LIVE&end=END&device=CMAFDASH_HEVC_UHD
 
 #EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/886565c7d7714745880d938025a1610b/version/0",Sport TV 2
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
