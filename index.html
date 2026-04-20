@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Dashboard PRO - Tony16</title>
+    <title>DASHBOARD TONY16 - STABILE</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/shaka-player.ui.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/controls.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -50,29 +50,21 @@ async function init() {
     const mainList = document.getElementById('main-list');
     const countHeader = document.getElementById('chan-count');
 
-    // Configurazione ultra-compatibile
     player.configure({ 
-        streaming: { 
-            jumpLargeGaps: true,
-            lowLatencyMode: true,
-            retryParameters: { maxAttempts: 4 }
-        },
+        streaming: { jumpLargeGaps: true },
         manifest: { dash: { ignoreDrmInfo: true } }
     });
 
-    // LA MAGIA PER POLONIA E PORTOGALLO
+    // Filtro di rete semplificato per non rompere i portoghesi
     player.getNetworkingEngine().registerRequestFilter((type, request) => {
-        // 1. Forza HTTPS (quello che ha sbloccato i portoghesi)
+        // Forza HTTPS ovunque
         if (request.uris[0].startsWith('http://')) {
             request.uris[0] = request.uris[0].replace('http://', 'https://');
         }
-        
-        // 2. Rimuove le "impronte" di GitHub per i canali Polacchi e Portoghesi
-        if (request.uris[0].includes('pluscdn.pl') || request.uris[0].includes('vodafone.pt')) {
-            request.allowCrossOrigin = true;
-            delete request.headers['Origin'];
-            delete request.headers['Referer'];
-            request.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36';
+
+        // Solo per la Polonia siamo un po' più specifici
+        if (request.uris[0].includes('pluscdn.pl')) {
+            request.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
         }
     });
 
@@ -120,10 +112,10 @@ async function init() {
                     try {
                         await player.unload();
                         player.configure({ drm: { clearKeys: ch.drm } });
-                        // Applichiamo la trasformazione HTTPS anche al manifest principale
+                        // Forza HTTPS anche qui
                         await player.load(ch.url.replace('http://', 'https://'));
                         window.scrollTo({top: 0, behavior: 'smooth'});
-                    } catch(e) { console.error("Errore Shaka:", e.code); }
+                    } catch(e) { console.error("Errore:", e.code); }
                 };
                 
                 getGrid(ch.group).appendChild(card);
@@ -134,7 +126,6 @@ async function init() {
         countHeader.innerText = count + " CANALI CARICATI";
     } catch(e) { countHeader.innerText = "ERRORE CARICAMENTO"; }
 }
-
 document.addEventListener('shaka-ui-loaded', init);
 </script>
 </body>
