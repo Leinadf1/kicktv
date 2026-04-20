@@ -34,89 +34,92 @@
     <div id="main-list" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
 
 <script>
-const SOURCE_URL = "lista.m3u";
+const SOURCE = "lista.m3u";
 
 async function init() {
     const video = document.getElementById('video');
     const ui = video['ui'];
     const player = ui.getControls().getPlayer();
-    const mainList = document.getElementById('main-list');
+    const listDiv = document.getElementById('list');
 
-    player.configure({ 
-        streaming: { jumpLargeGaps: true },
-        manifest: { dash: { ignoreDrmInfo: true } }
+    // Configurazione specifica per flussi ostici
+    player.configure({
+        manifest: { dash: { ignoreDrmInfo: true } },
+        streaming: {
+            jumpLargeGaps: true,
+            dispatchAllEmsgBoxes: true
+        }
     });
 
+    // IL FILTRO DEFINITIVO
     player.getNetworkingEngine().registerRequestFilter((type, request) => {
-        // PER IL PORTOGALLO: Forza HTTPS
-        if (request.uris[0].includes('vodafone.pt') && request.uris[0].startsWith('http://')) {
-            request.uris[0] = request.uris[0].replace('http://', 'https://');
-        }
-        
-        // PER LA POLONIA: Usa un proxy per evitare blocchi HTTPS/CORS
+        request.allowCrossOrigin = true;
+
+        // Se il canale è polacco, dobbiamo essere "aggressivi"
         if (request.uris[0].includes('pluscdn.pl')) {
-            // Se non va con https, lo facciamo passare da AllOrigins
-            if (!request.uris[0].includes('api.allorigins.win')) {
-                const originalUrl = request.uris[0];
-                request.uris[0] = `https://api.allorigins.win/raw?url=${encodeURIComponent(originalUrl)}`;
-            }
+            // Rimuoviamo le tracce di GitHub
+            delete request.headers['Origin'];
+            delete request.headers['Referer'];
+            
+            // Usiamo uno User-Agent che i server Polacchi amano (Chromecast o Player standard)
+            request.headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 10; Chromecast) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
         }
     });
 
     try {
-        const response = await fetch(SOURCE_URL);
-        const text = await response.text();
+        const res = await fetch(SOURCE);
+        const text = await res.text();
         const lines = text.split('\n');
-        let current = { name: "", logo: "", group: "ALTRI", drm: {}, url: "" };
-        let count = 0;
+        let ch = { drm: {} };
 
         for (let line of lines) {
             line = line.trim();
             if (line.includes('license_key=')) {
-                const val = line.split('=')[1];
-                const m = val.match(/[a-f0-9]{32}/gi);
-                if (m && m.length >= 2) current.drm[m[0]] = m[1];
+                const m = line.match(/[a-f0-9]{32}/gi);
+                if (m) ch.drm[m[0]] = m[1];
             } else if (line.startsWith('#EXTINF:')) {
-                current.logo = (line.match(/tvg-logo="([^"]+)"/i) || [])[1] || "";
-                current.group = (line.match(/group-title="([^"]+)"/i) || [])[1] || "ALTRI";
-                current.name = (line.match(/,(.*)/) || [])[1] || "Unknown";
+                ch.logo = (line.match(/tvg-logo="([^"]+)"/i) || [])[1] || "";
+                ch.group = (line.match(/group-title="([^"]+)"/i) || [])[1] || "ALTRI";
+                ch.name = (line.match(/,(.*)/) || [])[1] || "Canale";
             } else if (line.startsWith('http')) {
-                current.url = line;
-                const ch = {...current};
-                
-                let grid = document.getElementById('g-' + ch.group);
+                const url = line;
+                const currentCh = {...ch};
+
+                let grid = document.getElementById(currentCh.group);
                 if (!grid) {
-                    const t = document.createElement('div'); t.className = 'group-title'; t.innerText = ch.group;
-                    mainList.appendChild(t);
-                    grid = document.createElement('div'); grid.className = 'grid'; grid.id = 'g-' + ch.group;
-                    mainList.appendChild(grid);
+                    const title = document.createElement('div'); title.className = 'group-title'; title.innerText = currentCh.group;
+                    listDiv.appendChild(title);
+                    grid = document.createElement('div'); grid.className = 'grid'; grid.id = currentCh.group;
+                    listDiv.appendChild(grid);
                 }
 
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `<img src="${ch.logo}"><div style="font-size:11px;">${ch.name}</div>`;
+                card.innerHTML = `<img src="${currentCh.logo}"><div>${currentCh.name}</div>`;
+                
                 card.onclick = async () => {
                     try {
                         await player.unload();
-                        player.configure({ drm: { clearKeys: ch.drm } });
-                        // Se è polacco, mandiamo subito l'URL al proxy
-                        let targetUrl = ch.url;
-                        if (targetUrl.includes('pluscdn.pl')) {
-                            targetUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
-                        } else if (targetUrl.includes('vodafone.pt')) {
-                            targetUrl = targetUrl.replace('http://', 'https://');
+                        // Applichiamo le chiavi DRM
+                        player.configure({ drm: { clearKeys: currentCh.drm } });
+                        
+                        // Per i polacchi, usiamo l'URL HTTP originale (senza S) 
+                        // MA assicurati di aver sbloccato il lucchetto del browser!
+                        await player.load(url);
+                        window.scrollTo({top: 0, behavior: 'smooth'});
+                    } catch(e) { 
+                        console.error("Errore caricamento:", e.code);
+                        // Se fallisce, prova un ultimo tentativo forzando HTTPS
+                        if (url.startsWith('http://')) {
+                            await player.load(url.replace('http://', 'https://'));
                         }
-                        await player.load(targetUrl);
-                        window.scrollTo(0,0);
-                    } catch(e) { console.error("Errore:", e.code); }
+                    }
                 };
                 grid.appendChild(card);
-                count++;
-                current = { name: "", logo: "", group: "ALTRI", drm: {}, url: "" };
+                ch = { drm: {} };
             }
         }
-        document.getElementById('chan-count').innerText = count + " CANALI";
-    } catch(e) { console.error("Errore!"); }
+    } catch(e) { console.error("Errore lista:", e); }
 }
 document.addEventListener('shaka-ui-loaded', init);
 </script>
