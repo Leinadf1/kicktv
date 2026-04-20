@@ -2,8 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASHBOARD TONY16 - STABILE</title>
+    <title>DASHBOARD TONY16 - MULTI-FIX</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/shaka-player.ui.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/controls.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,19 +11,13 @@
         #header { width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #30363d; padding-bottom: 15px; }
         h1 { font-size: 22px; font-weight: 700; color: #58a6ff; margin: 0; }
         #chan-count { font-size: 13px; color: #8b949e; background: #21262d; padding: 4px 12px; border-radius: 20px; }
-        .player-container { width: 100%; max-width: 820px; background: #000; margin-bottom: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .player-container { width: 100%; max-width: 820px; background: #000; margin-bottom: 40px; border-radius: 8px; overflow: hidden; }
         video { width: 100%; aspect-ratio: 16/9; display: block; }
-        .category-container { width: 100%; max-width: 1200px; margin-bottom: 45px; }
-        .category-title { font-size: 16px; color: #f1e05a; margin-bottom: 20px; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; }
-        .category-title::before { content: ""; display: inline-block; width: 4px; height: 18px; background: #58a6ff; margin-right: 12px; border-radius: 2px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; width: 100%; }
-        .channel-card { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; cursor: pointer; transition: 0.25s; overflow: hidden; display: flex; flex-direction: column; }
-        .channel-card:hover { transform: translateY(-5px); border-color: #58a6ff; }
-        .channel-card.active { border: 2px solid #58a6ff; }
-        .logo-box { width: 100%; height: 100px; display: flex; justify-content: center; align-items: center; background: #0d1117; padding: 15px; }
-        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .info-box { padding: 12px; text-align: center; border-top: 1px solid #30363d; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
-        .name { font-size: 13px; font-weight: 600; color: #f0f6fc; text-transform: uppercase; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; width: 100%; max-width: 1100px; }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; transition: 0.25s; }
+        .card:hover { border-color: #58a6ff; transform: translateY(-3px); }
+        .card img { max-width: 100%; height: 50px; object-fit: contain; margin-bottom: 8px; }
+        .group-title { color: #f1e05a; font-size: 15px; font-weight: bold; margin: 25px 0 10px; width: 100%; max-width: 1100px; border-left: 4px solid #58a6ff; padding-left: 10px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -48,39 +41,27 @@ async function init() {
     const ui = video['ui'];
     const player = ui.getControls().getPlayer();
     const mainList = document.getElementById('main-list');
-    const countHeader = document.getElementById('chan-count');
 
     player.configure({ 
         streaming: { jumpLargeGaps: true },
         manifest: { dash: { ignoreDrmInfo: true } }
     });
 
-    // Filtro di rete semplificato per non rompere i portoghesi
     player.getNetworkingEngine().registerRequestFilter((type, request) => {
-        // Forza HTTPS ovunque
-        if (request.uris[0].startsWith('http://')) {
+        // PER IL PORTOGALLO: Forza HTTPS
+        if (request.uris[0].includes('vodafone.pt') && request.uris[0].startsWith('http://')) {
             request.uris[0] = request.uris[0].replace('http://', 'https://');
         }
-
-        // Solo per la Polonia siamo un po' più specifici
+        
+        // PER LA POLONIA: Usa un proxy per evitare blocchi HTTPS/CORS
         if (request.uris[0].includes('pluscdn.pl')) {
-            request.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
+            // Se non va con https, lo facciamo passare da AllOrigins
+            if (!request.uris[0].includes('api.allorigins.win')) {
+                const originalUrl = request.uris[0];
+                request.uris[0] = `https://api.allorigins.win/raw?url=${encodeURIComponent(originalUrl)}`;
+            }
         }
     });
-
-    function getGrid(group) {
-        const name = (group || "ALTRI").toUpperCase().trim();
-        let gridId = `grid-${name.replace(/[^a-z0-9]/gi, '-')}`;
-        let grid = document.getElementById(gridId);
-        if (!grid) {
-            const container = document.createElement('div');
-            container.className = 'category-container';
-            container.innerHTML = `<div class="category-title">${name}</div><div class="grid" id="${gridId}"></div>`;
-            mainList.appendChild(container);
-            grid = document.getElementById(gridId);
-        }
-        return grid;
-    }
 
     try {
         const response = await fetch(SOURCE_URL);
@@ -102,29 +83,40 @@ async function init() {
             } else if (line.startsWith('http')) {
                 current.url = line;
                 const ch = {...current};
-                const card = document.createElement('div');
-                card.className = 'channel-card';
-                card.innerHTML = `<div class="logo-box"><img src="${ch.logo}" onerror="this.src='https://via.placeholder.com/150x80?text=TV'"></div><div class="info-box"><div class="name">${ch.name}</div></div>`;
                 
+                let grid = document.getElementById('g-' + ch.group);
+                if (!grid) {
+                    const t = document.createElement('div'); t.className = 'group-title'; t.innerText = ch.group;
+                    mainList.appendChild(t);
+                    grid = document.createElement('div'); grid.className = 'grid'; grid.id = 'g-' + ch.group;
+                    mainList.appendChild(grid);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<img src="${ch.logo}"><div style="font-size:11px;">${ch.name}</div>`;
                 card.onclick = async () => {
-                    document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
-                    card.classList.add('active');
                     try {
                         await player.unload();
                         player.configure({ drm: { clearKeys: ch.drm } });
-                        // Forza HTTPS anche qui
-                        await player.load(ch.url.replace('http://', 'https://'));
-                        window.scrollTo({top: 0, behavior: 'smooth'});
+                        // Se è polacco, mandiamo subito l'URL al proxy
+                        let targetUrl = ch.url;
+                        if (targetUrl.includes('pluscdn.pl')) {
+                            targetUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                        } else if (targetUrl.includes('vodafone.pt')) {
+                            targetUrl = targetUrl.replace('http://', 'https://');
+                        }
+                        await player.load(targetUrl);
+                        window.scrollTo(0,0);
                     } catch(e) { console.error("Errore:", e.code); }
                 };
-                
-                getGrid(ch.group).appendChild(card);
+                grid.appendChild(card);
                 count++;
                 current = { name: "", logo: "", group: "ALTRI", drm: {}, url: "" };
             }
         }
-        countHeader.innerText = count + " CANALI CARICATI";
-    } catch(e) { countHeader.innerText = "ERRORE CARICAMENTO"; }
+        document.getElementById('chan-count').innerText = count + " CANALI";
+    } catch(e) { console.error("Errore!"); }
 }
 document.addEventListener('shaka-ui-loaded', init);
 </script>
