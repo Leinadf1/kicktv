@@ -1,3 +1,31 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <title>DASHBOARD TONY16</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/shaka-player.ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/controls.min.css">
+    <style>
+        body { background: #0d1117; color: white; font-family: sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .player-container { width: 100%; max-width: 800px; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid #30363d; }
+        video { width: 100%; aspect-ratio: 16/9; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; width: 100%; max-width: 1000px; margin-top: 20px;}
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; }
+        .card:hover { border-color: #58a6ff; }
+        .card img { max-height: 50px; margin-bottom: 8px; }
+        .group-title { width: 100%; max-width: 1000px; color: #f1e05a; font-weight: bold; margin: 25px 0 10px; border-left: 4px solid #58a6ff; padding-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="player-container" data-shaka-player-container>
+        <video autoplay data-shaka-player id="video"></video>
+    </div>
+
+    <div id="list"></div>
+
+<script>
 const SOURCE = "lista.m3u";
 
 async function init() {
@@ -6,18 +34,14 @@ async function init() {
     const player = ui.getControls().getPlayer();
     const listDiv = document.getElementById('list');
 
-    player.configure({ 
-        manifest: { dash: { ignoreDrmInfo: true } },
-        streaming: { crossOrigin: 'anonymous' } // Forza il browser a non inviare credenziali
-    });
+    player.configure({ manifest: { dash: { ignoreDrmInfo: true } } });
 
     player.getNetworkingEngine().registerRequestFilter((type, request) => {
+        // Tentiamo di forzare l'anonimato per i polacchi
         if (request.uris[0].includes('pluscdn.pl')) {
-            // Proviamo a forzare una richiesta ultra-base
             request.allowCrossOrigin = true;
-            request.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36';
-            
-            // Tentativo disperato di svuotare tutto quello che Chrome ci permette
+            // Questi header vengono spesso ignorati dal browser per sicurezza, 
+            // ma con il meta tag sopra abbiamo una chance in più
             delete request.headers['Origin'];
             delete request.headers['Referer'];
         }
@@ -56,7 +80,7 @@ async function init() {
                 card.onclick = async () => {
                     await player.unload();
                     player.configure({ drm: { clearKeys: currentCh.drm } });
-                    // Se non va in HTTPS, il browser su GitHub lo blocca a priori (Mixed Content)
+                    // I polacchi caricano solo in HTTPS se siamo su GitHub, forziamolo
                     await player.load(url.replace('http://', 'https://'));
                 };
                 grid.appendChild(card);
@@ -66,3 +90,6 @@ async function init() {
     } catch(e) {}
 }
 document.addEventListener('shaka-ui-loaded', init);
+</script>
+</body>
+</html>
