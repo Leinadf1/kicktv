@@ -34,16 +34,18 @@ async function init() {
     const player = ui.getControls().getPlayer();
     const listDiv = document.getElementById('list');
 
-    player.configure({ manifest: { dash: { ignoreDrmInfo: true } } });
+    player.configure({ 
+        manifest: { dash: { ignoreDrmInfo: true } },
+        streaming: { crossOrigin: 'anonymous' } // Forza il browser a non inviare credenziali
+    });
 
     player.getNetworkingEngine().registerRequestFilter((type, request) => {
-        request.allowCrossOrigin = true;
-
         if (request.uris[0].includes('pluscdn.pl')) {
-            // Proviamo a spacciarci per un Chromecast ufficiale, che spesso bypassa i blocchi Origin
-            request.headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 10; Chromecast Build/QTS2.200921.005; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.6261.105 Mobile Safari/537.36';
+            // Proviamo a forzare una richiesta ultra-base
+            request.allowCrossOrigin = true;
+            request.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36';
             
-            // Tentativo disperato di svuotare gli header che il browser permette di toccare
+            // Tentativo disperato di svuotare tutto quello che Chrome ci permette
             delete request.headers['Origin'];
             delete request.headers['Referer'];
         }
@@ -82,7 +84,7 @@ async function init() {
                 card.onclick = async () => {
                     await player.unload();
                     player.configure({ drm: { clearKeys: currentCh.drm } });
-                    // I polacchi su GitHub vanno forzati in HTTPS o il browser li killa subito
+                    // Se non va in HTTPS, il browser su GitHub lo blocca a priori (Mixed Content)
                     await player.load(url.replace('http://', 'https://'));
                 };
                 grid.appendChild(card);
