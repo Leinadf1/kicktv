@@ -2,43 +2,41 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Tony16</title>
+    <title>DASHBOARD TONY16</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/shaka-player.ui.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/controls.min.css">
     <style>
-        body { background: #0d1117; color: #white; font-family: sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .player-box { width: 100%; max-width: 800px; margin-bottom: 30px; }
-        video { width: 100%; aspect-ratio: 16/9; background: #000; }
-        .container { width: 100%; max-width: 1100px; }
-        .group-title { color: #f1e05a; font-size: 18px; margin: 20px 0 10px; border-left: 4px solid #58a6ff; padding-left: 10px; text-transform: uppercase; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+        body { background: #0d1117; color: white; font-family: sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .player-container { width: 100%; max-width: 800px; background: #000; margin-bottom: 30px; border: 1px solid #30363d; }
+        video { width: 100%; aspect-ratio: 16/9; }
+        .category-title { color: #f1e05a; font-size: 18px; font-weight: bold; margin: 20px 0 10px; border-left: 5px solid #58a6ff; padding-left: 10px; width: 100%; max-width: 1000px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; width: 100%; max-width: 1000px; }
         .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 10px; cursor: pointer; text-align: center; }
         .card:hover { border-color: #58a6ff; }
         .card img { max-width: 100%; height: 50px; object-fit: contain; }
-        .card p { font-size: 11px; color: #c9d1d9; margin: 5px 0 0; font-weight: bold; }
-        #info { color: #8b949e; margin-bottom: 15px; }
+        #status { color: #8b949e; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <h2 style="color:#58a6ff">TONY16 DASHBOARD</h2>
-    <div id="info">Inizializzazione...</div>
+    <div id="status">Caricamento lista...</div>
 
-    <div class="player-box" data-shaka-player-container>
+    <div class="player-container" data-shaka-player-container>
         <video autoplay data-shaka-player id="video"></video>
     </div>
 
-    <div id="main-list" class="container"></div>
+    <div id="list" style="width:100%; display: flex; flex-direction: column; align-items: center;"></div>
 
 <script>
-const FILE_NAME = "lista Tony.m3u"; 
+// NOME DEL FILE CORRETTO COME DA TUO GITHUB
+const M3U_URL = "lista.m3u"; 
 
-async function initApp() {
+async function start() {
     const video = document.getElementById('video');
     const ui = video['ui'];
     const player = ui.getControls().getPlayer();
-    const listContainer = document.getElementById('main-list');
+    const listDiv = document.getElementById('list');
 
     player.configure({ 
         streaming: { jumpLargeGaps: true },
@@ -46,72 +44,64 @@ async function initApp() {
     });
 
     try {
-        const r = await fetch(FILE_NAME);
-        if (!r.ok) throw new Error("File non trovato");
-        const t = await r.text();
-        const lines = t.split('\n');
+        const response = await fetch(M3U_URL);
+        const data = await response.text();
+        const lines = data.split('\n');
 
         let current = { name: "", logo: "", group: "ALTRI", drm: {} };
         let count = 0;
 
         for (let line of lines) {
             line = line.trim();
-            if (!line) continue;
-
-            if (line.includes('#KODIPROP:inputstream.adaptive.license_key=')) {
-                let val = line.split('=')[1];
-                try {
-                    if (val.includes('{')) {
-                        current.drm = JSON.parse(val);
-                    } else if (val.includes(':')) {
-                        let p = val.split(':');
-                        current.drm[p[0].trim()] = p[1].trim();
-                    }
-                } catch(e) { console.log("Errore DRM riga"); }
-            } 
-            else if (line.startsWith('#EXTINF:')) {
+            if (line.includes('license_key=')) {
+                let keyVal = line.split('=')[1];
+                if (keyVal.startsWith('{')) {
+                    try { current.drm = JSON.parse(keyVal); } catch(e) {}
+                } else if (keyVal.includes(':')) {
+                    let parts = keyVal.split(':');
+                    if(parts.length === 2) current.drm[parts[0].trim()] = parts[1].trim();
+                }
+            } else if (line.startsWith('#EXTINF:')) {
                 current.logo = (line.match(/tvg-logo="([^"]+)"/i) || [])[1] || "";
                 current.group = (line.match(/group-title="([^"]+)"/i) || [])[1] || "ALTRI";
                 current.name = (line.match(/,(.*)/) || [])[1] || "Canale";
-            } 
-            else if (line.startsWith('http')) {
+            } else if (line.startsWith('http')) {
                 const ch = {...current};
                 const url = line;
 
-                let grid = document.getElementById('g-' + ch.group);
-                if (!grid) {
+                let groupGrid = document.getElementById('g-' + ch.group);
+                if (!groupGrid) {
                     const title = document.createElement('div');
-                    title.className = 'group-title';
+                    title.className = 'category-title';
                     title.innerText = ch.group;
-                    listContainer.appendChild(title);
-                    
-                    grid = document.createElement('div');
-                    grid.className = 'grid';
-                    grid.id = 'g-' + ch.group;
-                    listContainer.appendChild(grid);
+                    listDiv.appendChild(title);
+                    groupGrid = document.createElement('div');
+                    groupGrid.className = 'grid';
+                    groupGrid.id = 'g-' + ch.group;
+                    listDiv.appendChild(groupGrid);
                 }
 
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `<img src="${ch.logo}"><p>${ch.name}</p>`;
+                card.innerHTML = `<img src="${ch.logo}"><div style="font-size:11px; margin-top:5px;">${ch.name}</div>`;
                 card.onclick = () => {
                     player.configure({ drm: { clearKeys: ch.drm } });
-                    player.load(url);
+                    player.load(url).catch(e => console.error("Errore caricamento:", e.code));
                     window.scrollTo(0,0);
                 };
 
-                grid.appendChild(card);
+                groupGrid.appendChild(card);
                 count++;
                 current = { name: "", logo: "", group: "ALTRI", drm: {} };
             }
         }
-        document.getElementById('info').innerText = count + " canali caricati";
-    } catch(e) {
-        document.getElementById('info').innerText = "Errore: controlla che il file si chiami 'lista Tony.m3u'";
+        document.getElementById('status').innerText = count + " CANALI CARICATI";
+    } catch (err) {
+        document.getElementById('status').innerText = "ERRORE: File lista.m3u non trovato";
     }
 }
 
-document.addEventListener('shaka-ui-loaded', initApp);
+document.addEventListener('shaka-ui-loaded', start);
 </script>
 </body>
 </html>
