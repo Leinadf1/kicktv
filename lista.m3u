@@ -68,12 +68,12 @@ https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$524/index.mpd/Manifest.mpd?start=LIVE
 #EXTINF:-1 group-title="POLONIA" tvg-logo="https://ipla.pluscdn.pl/p/cms_thumbnails/4z/4zkr6bvbaggt3vwatxq3sfvcdv87rdvr.png",Eleven Sports 1 4K
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"ef5e40e00d43450bbeeb40c6849e0309":"614c349de0e08585c7b503568cacd5a1"}
-http://cdn-s-lb2.pluscdn.pl/ch/1522637/357/dash/b929c9fb/live.mpd
+https://cdn-s-lb2.pluscdn.pl/ch/1522637/357/dash/b929c9fb/live.mpd
 
 #EXTINF:-1 group-title="POLONIA" tvg-logo="https://ipla.pluscdn.pl/p/cms_thumbnails/17/17s6gz9m8bsyjjnpa7phpzj8dpjy9v14.png",Eleven Sports 1
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"525a9da2120045a6973709dbcd685609":"d8a7578d81ce754755a503ad8ac98ec0"}
-http://cdn-s-lb2.pluscdn.pl/ch/1457744/147/dash/4867711b/live.mpd
+https://cdn-s-lb2.pluscdn.pl/ch/1457744/147/dash/4867711b/live.mpd
 
 #EXTINF:-1 group-title="POLONIA" tvg-logo="https://ipla.pluscdn.pl/p/cms_thumbnails/br/brcwuq4vd14sqd1zx6jcz3z94hhsuqz9.png",Eleven Sports 2
 #KODIPROP:inputstream.adaptive.license_type=clearkey
