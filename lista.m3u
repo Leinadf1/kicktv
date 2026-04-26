@@ -1,241 +1,59 @@
-#EXTM3U
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/e3a7169255414c35b01973e333e762e5/version/0",Sport TV 1
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"d012322fb2db4c929a66417c1fa40b00":"eac803603f1b2e4658e0f9da317fd05b"}
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$151/index.mpd/Manifest.mpd?start=LIVE&end=END&device=CMAFDASH_HEVC_UHD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/886565c7d7714745880d938025a1610b/version/0",Sport TV 2
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=0d28edf4f055409bb12d6d0260b26b6b:bf69f8a33c39c31f5ff06ab52012e27c
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$152/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_HD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/9966cfdee0a04619b2be74ecf4119e25/version/0",Sport TV 3
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=206fec56f5b741e5aa81124895d9b592:27b91505aa6926f59199c828bc27767b
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$153/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_HD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/a2aabacfc9a54ce3ad64acf33e161b14/version/0",Sport TV 4
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=cc0b7ac31b5e42f8bf934f99acf71a8a:d76424d644a360056567a248d8b89b6c
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$10/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_HD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/adfc9e4d07124034bcf3a440eb1e1179/version/0",Sport TV 5
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=81ca434c931a403e950df3d808c24c41:18548190cf3c8294096af8a2146e32a5
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$112/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_HD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/3ba84ea044f7493b9f4f82a7735aa1fb/version/0",Sport TV 6
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=d319aab02a8342248cceb0fdf060bc54:b36668a836b15055be1f04b8d8a8cc70
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$566/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_HD
-
-#EXTINF:-1 group-title="PORTOGALLO"  tvg-logo="https://3038.images-vfp2.ott.kaltura.com/Service.svc/GetImage/p/3038/entry_id/11b05c45e5e54609b5a6515d6b0ffdb7/version/2",Sport TV 7
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=org.w3.clearkey
-#KODIPROP:inputstream.adaptive.license_key=400957ac68d549fbbbbc668d3a9eb709:3dd351f1875b0dd40a4e392f06a29b29
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$597/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_HD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://r2.thesportsdb.com/images/media/channel/logo/olj2cb1657045831.png",DAZN 1 PT
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"39bcbc9418aa4d62b96b6a3eae2f6df0":"a8f968b6a8ed7bfb17bf787b6c930c7e"}
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$521/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_FULLHD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://r2.thesportsdb.com/images/media/channel/logo/olj2cb1657045831.png",DAZN 2 PT
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"3805cd533c1341a7934d13629eb7a34e":"2542564928cb8e3fe4595ab8dcfd6e77"}
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$522/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_FULLHD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://r2.thesportsdb.com/images/media/channel/logo/olj2cb1657045831.png",DAZN 3 PT
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"7224f2a6a14a4d88874d10dd953c88dc":"9719ea238d3de66eb073ce842814f464"}
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$523/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_FULLHD
-
-#EXTINF:-1 group-title="PORTOGALLO" tvg-logo="https://r2.thesportsdb.com/images/media/channel/logo/olj2cb1657045831.png",DAZN 4 PT
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"0b6e5fe5b1d140b092e22cc662088276":"6bdd76adbc5bb25089983b2500dde7ca"}
-https://rr.cdn.vodafone.pt/LIVE/sdash/LIVE$524/index.mpd/Manifest.mpd?start=LIVE&end=END&device=DASH_AVC_FULLHD
-
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/sggNDR7/a1.png"",Arena Sport 1
+#EXTINF:-1 group-title="UNIONE SOVIETICA" tvg-logo="https://i.ibb.co.com/sggNDR7/a1.png"",Arena Sport 1
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"9002ec8c3dbc55c5bccdcd6871d80fd0":"7099325123bae7810db508727bb0bc7d","c43c83acda60593d8e3607efd5010d7d":"526f4a760ef52ab85056fbc10ea27584","712090aae2065c21951b170bc3002330":"a97774e4175b80205c3cf104e9574208"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena1_n/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/R4yyyng/a2.png",Arena Sport 2
+#EXTINF:-1 group-title="UNIONE SOVIETICA" group-title="BOH" tvg-logo="https://i.ibb.co.com/R4yyyng/a2.png",Arena Sport 2
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"d256b403efcc5c3db701fc696885e102":"d46e4215e279b224e9d2a772db9c74a1","b2f22f5d7ca35910a73fbabc524954de":"d87d08fbe6505ad7099b8c258f396d15","c5e5ac1b3cc15fe790f1bc96535fe329":"3defe59c38079ccad25a436200ad3bd7"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena2/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/18LnFNg/a3.png",Arena Sport 3
+#EXTINF:-1 group-title="UNIONE SOVIETICA" group-title="BOH" tvg-logo="https://i.ibb.co.com/18LnFNg/a3.png",Arena Sport 3
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"3bedf4a896695958907e0984165090f0":"a58317ffddf318f1540f31f67d95b5fb","ccebefcba0a3546ba34d3fc587651708":"18f2b2027ce26867c23dcd7f57faa245","25c3df3202005cc98c47700295be59ca":"073f5a39d84dd14a9debd1a72bb1f055"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena3/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/K99CqgQ/a4.png",Arena Sport 4
+#EXTINF:-1 group-title="UNIONE SOVIETICA" group-title="BOH" tvg-logo="https://i.ibb.co.com/K99CqgQ/a4.png",Arena Sport 4
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"77ce6938c781526e999b688992f27764":"bf1178841770fdba74f8629f0f06d2c0","89d1dc54692e5b4fb5995fc0953bf5bf":"31b8953ab60b90fefc93d9bd1b806fbc","68cd661dbc8352fda000c532840f6340":"0255fb620f4f707ea7ba090058718306"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena4/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/MfCshjJ/a5.png",Arena Sport 5
+#EXTINF:-1 group-title="UNIONE SOVIETICA" group-title="BOH" tvg-logo="https://i.ibb.co.com/MfCshjJ/a5.png",Arena Sport 5
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"34a709bbeac052f293c778c0770829fd":"2b801fde1ad4839d4080d6ec6b0ec4ce","e473ec5d96f45a9f9a22eb665b5b1ea9":"ace54ce15b69d249b00395c9e6b85b90","18d3fba08f3152c38f14151219fa9792":"78b0c5b961351e482be81287466ecb08"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena5/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/HH4TJ8T/a6.png",Arena Sport 6
+#EXTINF:-1 group-title="UNIONE SOVIETICA" tvg-logo="https://i.ibb.co.com/HH4TJ8T/a6.png",Arena Sport 6
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"5a86e42c58cf5d008546861c0f0fb22a":"67b1172a05bcb38a91a304d7098ce7f5","bfd8ff04a3625fcea8335c9575401697":"769d61a2d6fd7030a5088df2e70c2654","b3b60e79989a5b2799fa3a2394b8749f":"a25d21e333dad3d131f126b7b57730be"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena6/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/dJ8M6jj/a7.png",Arena Sport 7
+#EXTINF:-1 group-title="UNIONE SOVIETICA" tvg-logo="https://i.ibb.co.com/dJ8M6jj/a7.png",Arena Sport 7
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"5d4b5005dbd355559b3c7fe4dae1fb05":"10e65a5b74158216190e654cdf05b584","5998265ef8fc5748822fef96229831aa":"9110b6be31b4bbdce67374bae3395269","5244c72f4f5d5e1a8778fc93906c9cb3":"4c14a6a924ef7fb32534dd590d99d499"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena7/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/DVGVP4n/a8.png",Arena Sport 8
+#EXTINF:-1 group-title="UNIONE SOVIETICA" tvg-logo="https://i.ibb.co.com/DVGVP4n/a8.png",Arena Sport 8
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"c6fc5b27b74e5b8e82ca19da484eb174":"51f8fd5eef736dccaea9235b621731e7","b9e9546bc9ba52d1a75fba9222efa7f5":"2cec65c6b79be6c2d4481c6e0ef79bfc","ca202ac1353a5c6b9960bdbb82f88efc":"7ef86abd9a62042858370852836c50b4"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena8/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/g9YZxVC/a9.png",Arena Sport 9
+#EXTINF:-1 group-title="UNIONE SOVIETICA" tvg-logo="https://i.ibb.co.com/g9YZxVC/a9.png",Arena Sport 9
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"91a56f5aab4c56cb88fbf787187acafe":"0000816079a5ec4f093e3274bda26f2a","a2ff372a21b35653a88592abfec3f9a7":"d5bc25088d1fda12849aad90716de750","7ecfd12eb26258c381afadac16ac8fc9":"b4f351533d633abf76cda47fe75d579b"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena9/default/index.mpd
 
-#EXTINF:-1 group-title="BOH" tvg-logo="https://i.ibb.co.com/ChXVZ23/a10.png",Arena Sport 10
+#EXTINF:-1 group-title="UNIONE SOVIETICA" tvg-logo="https://i.ibb.co.com/ChXVZ23/a10.png",Arena Sport 10
 #KODIPROP:inputstream.adaptive.manifest_type=mpd
 #KODIPROP:inputstream.adaptive.license_type=clearkey
 #KODIPROP:inputstream.adaptive.license_key={"06376a4b5a09557cb3ad1ed4bdb677fe":"90ddef80ce78a710935c408ff6067611","03ed75ef7e4c56cb8f81cc17952fc554":"2be3b8e9f4756601e5b263beb14c5908","ea5736047df25edbb48bd055d48eb3dd":"8b40d3a415517224245a79e907cb8ef0","ee6860a6bf7a5f6c89bcf1794d16e25f":"b573f718f1551d2cf2a335ca778f5604"}
 https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/arena10/default/index.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/4/49/Eleven_Sports.png",Eleven Sports 1 4K
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"ef5e40e00d43450bbeeb40c6849e0309":"614c349de0e08585c7b503568cacd5a1"}
-http://cdn-s-lb2.pluscdn.pl/ch/1522637/357/dash/b929c9fb/live.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/4/49/Eleven_Sports.png",Eleven Sports 1
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"525a9da2120045a6973709dbcd685609":"d8a7578d81ce754755a503ad8ac98ec0"}
-http://cdn-s-lb2.pluscdn.pl/ch/1457744/147/dash/4867711b/live.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/4/49/Eleven_Sports.png",Eleven Sports 2
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"2cd12eaca5c14b30a3280b1a89484809":"e2c14f6cc245c1a5ebbce8c8c704fc6c"}
-http://cdn-s-lb2.pluscdn.pl/ch/1457734/144/dash/0be7047a/live.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/4/49/Eleven_Sports.png",Eleven Sports 3
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"e006dab396714c0b9dd6228255c1b709":"2cdf44e960bbc4d276968012fe659272"}
-http://cdn-s-lb2.pluscdn.pl/ch/1457736/145/dash/58566515/live.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/4/49/Eleven_Sports.png",Eleven Sports 4
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"3e943ad288964c77917cc654fc60d109":"18cf07106507f411210c4a26d901a9e4"}
-http://cdn-s-lb2.pluscdn.pl/ch/1457740/146/dash/e653c27f/live.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://ipla.pluscdn.pl/p/cms_thumbnails/17/17s6gz9m8bsyjjnpa7phpzj8dpjy9v14.png",Eleven Sports 1
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"751db0bb03145084973c6cf9c85fa16e":"6571153c39eed18c29cdc63eb83c553a","4853dbe4c4cf51f3ba95424c6e6f69c7":"39c0346198bc9b1614eb319115afdb84","fd9b5f8ae64a51edacd4f245ef515287":"c867d24646b170b5c0e0556b56b291d7"}
-https://lineartv-cdn.t-mobile.pl/bpk-tv/elevensports1/default/index.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://ipla.pluscdn.pl/p/cms_thumbnails/br/brcwuq4vd14sqd1zx6jcz3z94hhsuqz9.png",Eleven Sports 2
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"a118a928ea39552f976c8fad437f71ad":"f58fb7a53ee86de9d0b9823446ba9756","78f826af752f54ddbc4ad9959ff2a42d":"c1479ffada263000730d627a989e96ab","95c2aefadb7e522c9deeed393207f853":"16e857224e16ab01a3c549212cdbdbb8"}
-https://lineartv-cdn.t-mobile.pl/bpk-tv/elevensports2/default/index.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://ipla.pluscdn.pl/p/cms_thumbnails/by/byi91ku4qk998tx13okckimshjec5fn1.png",Eleven Sports 3
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"e3dd9d531eee578fbd08c87de8ab84d5":"133e5a170236f4ba5930f5ba4213ee03","e3a9d5c27a6d5eac955daf5a1a640c69":"4c2e674f97ff33c5de13032b92e78bc9","d895d50a5a0f55758d31f247e6743815":"9f4882e56631edb0da1c7bf1e0fa4904"}
-https://lineartv-cdn.t-mobile.pl/bpk-tv/elevensports3/default/index.mpd
-
-#EXTINF:-1 group-title="POLONIA" tvg-logo="https://ipla.pluscdn.pl/p/cms_thumbnails/j1/j1aqr1e6iciwsw9zaitiodyv5fbrecxw.png",Eleven Sports 4
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"54a7d8f8dbee564981beb470f22b529b":"a0e341fec141f8733c0805f5480762ba","14e62b5f16385a139e2a1c747b8b1cc4":"0cece074b5f3fabc76fc9ed109b3819d","37b0bbf897ad5bd5a3ec19b5a91f54f9":"3e84e6b93e19197d5aea59ef8ad9d270"}
-https://lineartv-cdn.t-mobile.pl/bpk-tv/elevensports4/default/index.mpd
-
-#EXTINF:-1 group-title="OLANDA" tvg-logo="https://i.ibb.co.com/HV2c1Cc/ziggosport.png",Ziggo Sport 1
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"ef34ae91b4f2415e8439b2ad105e7488":"243248d8de1ff8c7c587ee2057317523"}
-https://mag03.tvx.prd.tv.odido.nl/wh7f454c46tw75168188_-627298088/PLTV/86/224/3221241590/3221241590.mpd?zoneoffset=0&devkbps=1-7000&servicetype=1&icpid=86&accounttype=1&limitflux=-1&limitdur=-1&tenantId=3103&accountinfo=~~V2.0~qbcsJh_jU5C9BcZc959e_wae44b4867b3417aa76b5db2da20fe46c~KZzTWjB8qD1zdgbJjRPVLJX-tV0qiN9RBHC_iseGrsmTSRjj06oGDtGlpSCRGOwF3626cf085c08d024c7e4aafc18c32440~ExtInfo5Ro3VppWiUusj2ippqUPkQ==4a2d2c8ce133f43026d0e31b822b8474:20240601012829:UTC,10001003329222,87.212.140.171,20240601012829,3103_SP1S,10001003329222,-1,0,1,,,2,3103_Sport1,,,2,10000044444303,0,10000025050255,NDEzODg2NTY3MzEwMzI2NzMwNjMwNTY=,,,5,1,END&GuardEncType=2&RTS=1717205309&from=11&hms_devid=1008&online=1717205309&mag_hms=1008,311,305&_=1717205322621
-
-#EXTINF:-1 group-title="OLANDA" tvg-logo="https://i.ibb.co.com/3fNq3Dr/ziggosport2.png",Ziggo Sport 2
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"3cfa8625f650406ebf6a4d1ea737f572":"0534e747c70b364aa7210e1bf3191df0"}
-https://mag04.tvx.prd.tv.odido.nl/wh7f454c46tw266117884_-1972819316/PLTV/86/224/3221241560/3221241560.mpd?zoneoffset=0&devkbps=1-7000&servicetype=1&icpid=86&accounttype=1&limitflux=-1&limitdur=-1&tenantId=3103&accountinfo=~~V2.0~OhA1DF4svOZppKxb-t-Ngw144cce44121c63284a33d5453493e5c8~1_Fmlu5PevHMYnEi9Z_HX2goKAd0VHSuxZMoIcAXcawYvG1meqGp2eQ2Ibhjvh7e59e7f6df3d57f23a32024ad67f0f19dc~ExtInfo5Ro3VppWiUusj2ippqUPkQ==4a2d2c8ce133f43026d0e31b822b8474:20240601013140:UTC,10001003329222,87.212.140.171,20240601013140,3103_SP1V,10001003329222,-1,0,1,,,2,3103_Sport1,,,2,10000044444303,0,10000025050255,NDEzODg2NTY3MzEwMzI2NzMwNjMwNTY=,,,5,1,END&GuardEncType=2&_=1717205500296&RTS=1717205500&from=11&hms_devid=579&online=1717205500&mag_hms=579
-
-#EXTINF:-1 group-title="OLANDA" tvg-logo="https://i.ibb.co.com/b2Q0RdR/ziggosport3.png",Ziggo Sport 3
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"4dbea4b5713a4aa1ae3a2544cd522fc7":"a8323ea99b2d6200a48e1bc27322d548"}
-https://mag01.tvx.prd.tv.odido.nl/wh7f454c46tw407556707_-381738111/PLTV/86/224/3221241511/3221241511.mpd?zoneoffset=0&devkbps=1-7000&servicetype=1&icpid=86&accounttype=1&limitflux=-1&limitdur=-1&tenantId=3103&accountinfo=~~V2.0~yVi0dMX4icO5Ka9e92EQfg8812e1c1044f7d357066472e3ee99ef4~2dRB9E-vDtoAbYl169LbcJpxUgWVJtbeU_PlhGfNUflphvljOb5VaEhxruETYG9qcccaf5c5b655bf7504ed7ec5a1dd798f~ExtInfo5Ro3VppWiUusj2ippqUPkQ==4a2d2c8ce133f43026d0e31b822b8474:20240601013401:UTC,10001003329222,87.212.140.171,20240601013401,3103_SP1G,10001003329222,-1,0,1,,,2,3103_Sport1,,,2,10000044444303,0,10000025050255,NDEzODg2NTY3MzEwMzI2NzMwNjMwNTY=,,,5,1,END&GuardEncType=2&_=1717205641752&RTS=1717205641&from=16&hms_devid=538&online=1717205641&mag_hms=538
-
-#EXTINF:-1 group-title="OLANDA" tvg-logo="https://i.ibb.co/3YNQxBwv/ziggosport4.png",Ziggo Sport 4
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"b5c04cfb6da84104ba5bbe51cd065b12":"d96561be4819d3ed4e5f4f54015baaca"}
-https://mag01.tvx.prd.tv.odido.nl/wh7f454c46tw523693457_1808344289/PLTV/86/224/3221241652/3221241652.mpd?zoneoffset=0&devkbps=1-7000&servicetype=1&icpid=86&accounttype=1&limitflux=-1&limitdur=-1&tenantId=3103&accountinfo=~~V2.0~u0jaHTa0MTNW18tBSpXw1Ad47f31195be578ee163e34a9e557d481~-tEuN4yI47Z49lA_lxVw3r26rEF-eIM-4N-YRBTnBjXeDlL3yoAcCSTfh367bmnJfe93264045ad9787422349ffe59c4e2f~ExtInfo5Ro3VppWiUusj2ippqUPkQ==4a2d2c8ce133f43026d0e31b822b8474:20240601013557:UTC,10001003329222,87.212.140.171,20240601013557,3103_SP1T,10001003329222,-1,0,1,,,2,3103_Sport1,,,2,10000044444303,0,10000025050255,NDEzODg2NTY3MzEwMzI2NzMwNjMwNTY=,,,5,1,END&GuardEncType=2&_=1717205757900&RTS=1717205758&from=11&hms_devid=538&online=1717205758&mag_hms=538
-
-#EXTINF:-1 group-title="OLANDA" tvg-logo="https://i.ibb.co.com/bbVShcY/ziggosport5.png",Ziggo Sport 5
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"3fb40d85724942f994d86943f48021db":"a6da8742502c8a2153067f5f2a70fb02"}
-https://mag01.tvx.prd.tv.odido.nl/wh7f454c46tw865586829_-819821292/PLTV/86/224/3221241610/3221241610.mpd?zoneoffset=0&devkbps=1-7000&servicetype=1&icpid=86&accounttype=1&limitflux=-1&limitdur=-1&tenantId=3103&accountinfo=~~V2.0~LNS2PBO5tyhp5z1Pe6ObBA6cd7a4ec35c4492167b9376e6dff2932~BZw2dESHw-I1PQCFh9gGxCMvrIIzgMdYAe900qj8l6aoXUX9ahyR6I9EUIu7nDR4f4887615c83ea7a8cee6dd33137c4ebe~ExtInfo5Ro3VppWiUusj2ippqUPkQ==4a2d2c8ce133f43026d0e31b822b8474:20240601014139:UTC,10001003329222,87.212.140.171,20240601014139,3103_S1E1,10001003329222,-1,0,1,,,2,3103_Sport1,,,2,10000044444303,0,10000025050255,NDEzODg2NTY3MzEwMzI2NzMwNjMwNTY=,,,5,1,END&GuardEncType=2&RTS=1717206099&from=11&hms_devid=538&online=1717206099&mag_hms=538&_=1717206113039
-
-#EXTINF:-1 group-title="OLANDA" tvg-logo="https://i.ibb.co.com/P5xs9ZF/ziggosport6.png",Ziggo Sport 6
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"1a0ffa532aa2498490826e2f6a37f7c9":"a8cec27bc7d47909c5b0d8f473b43e8d"}
-https://mag01.tvx.prd.tv.odido.nl/wh7f454c46tw1024019879_757686866/PLTV/86/224/3221241521/3221241521.mpd?zoneoffset=0&devkbps=1-7000&servicetype=1&icpid=86&accounttype=1&limitflux=-1&limitdur=-1&tenantId=3103&accountinfo=~~V2.0~URnD_afuosWHfY5OEqRXOwfa01c8ac56cf4511de39c2c4a3cab278~iVxKjbtf2gx_dYFqI-vt5C4Cu3COYDjZaw6C_kO2T2wm30fwo1ctD1gr_e2PrgTh48867c3177f3c34842031623cb2e06c9~ExtInfo5Ro3VppWiUusj2ippqUPkQ==4a2d2c8ce133f43026d0e31b822b8474:20240601014418:UTC,10001003329222,87.212.140.171,20240601014418,3103_S1E2,10001003329222,-1,0,1,,,2,3103_Sport1,,,2,10000044444303,0,10000025050255,NDEzODg2NTY3MzEwMzI2NzMwNjMwNTY=,,,5,1,END&GuardEncType=2&RTS=1717206258&from=14&hms_devid=538&online=1717206258&mag_hms=538&_=1717206265600
-
-#EXTINF:-1 group-title="MESSICO" tvg-logo="https://cdn6.aptoide.com/imgs/6/4/a/64acfb26233055c8b0e5defef092a670_icon.png",ESPN 1
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"52358519f886446d82834a803b36f796":"58b6ac8e07d354b178255e03b9d0f819"}
-https://bks400-tol-110.quieroxview.com.mx/bpk-tv/espn_hd/default/index.mpd
-
-#EXTINF:-1 group-title="MESSICO" tvg-logo="https://cdn6.aptoide.com/imgs/6/4/a/64acfb26233055c8b0e5defef092a670_icon.png",ESPN 2
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"52358519f886446d82834a803b36f796":"58b6ac8e07d354b178255e03b9d0f819"}
-https://bks400-tol-110.quieroxview.com.mx/bpk-tv/espn_2_hd/default/index.mpd
-
-#EXTINF:-1 group-title="MESSICO" tvg-logo="https://cdn6.aptoide.com/imgs/6/4/a/64acfb26233055c8b0e5defef092a670_icon.png",ESPN 3
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"0c39778fe8fb4f9f8574016b3d4ae2ed":"232b1f450f2e37f47fdd5b678a8a546d"}
-https://bks400-tol-110.quieroxview.com.mx/bpk-tv/espn_3_hd/default/index.mpd
-
-#EXTINF:-1 group-title="MESSICO" tvg-logo="https://cdn6.aptoide.com/imgs/6/4/a/64acfb26233055c8b0e5defef092a670_icon.png",ESPN 4
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key={"0c39778fe8fb4f9f8574016b3d4ae2ed":"232b1f450f2e37f47fdd5b678a8a546d"}
-https://bks400-tol-110.quieroxview.com.mx/bpk-tv/espn_plus_hd/default/index.mpd
