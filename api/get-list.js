@@ -1,5 +1,7 @@
 import { kv } from '@vercel/kv';
-import { createHash, randomBytes } from 'crypto'; // Node.js built-in
+import { randomBytes } from 'crypto';
+import fs from 'fs';
+import path from 'path';
 
 export default async function handler(req, res) {
     // CORS
@@ -11,58 +13,55 @@ export default async function handler(req, res) {
     }
 
     if (req.method !== 'POST') {
-        res.status(405).json({ error: 'Method not allowed' });
+        res.status(405).json({ error: 'Metodo non permesso' });
         return;
     }
 
     const { password } = req.body;
+    const tokenFromHeader = req.headers['x-token'];
     const correctPassword = process.env.ACCESS_PASSWORD;
 
-    // Verifica password
-    if (!password || password !== correctPassword) {
-        res.status(403).json({ error: 'Password errata!' });
-        return;
-    }
-
-    // Gestione heartbeat: se c'è un header x-token, verifichiamo la validità
-    const tokenFromHeader = req.headers['x-token'];
+    // Se la richiesta è un heartbeat (contiene x-token)
     if (tokenFromHeader) {
-        // Heartbeat: controlla se il token è ancora valido
-        const storedPassword = await kv.get(`token:${tokenFromHeader}`);
-        if (storedPassword === password) {
-            // Rinnova il TTL del token (30 secondi)
-            await kv.expire(`token:${tokenFromHeader}`, 30);
-            res.status(200).json({ status: 'ok', token: tokenFromHeader });
-            return;
-        } else {
-            res.status(401).json({ error: 'Sessione scaduta o invalidata da un altro accesso' });
-            return;
+        try {
+            const storedPassword = await kv.get(`token:${tokenFromHeader}`);
+            if (storedPassword === correctPassword) {
+                // Rinnova TTL di 30 secondi
+                await kv.expire(`token:${tokenFromHeader}`, 30);
+                return res.status(200).json({ status: 'ok', token: tokenFromHeader });
+            } else {
+                return res.status(401).json({ error: 'Sessione scaduta o invalidata' });
+            }
+        } catch (kvError) {
+            console.error('KV error:', kvError);
+            return res.status(500).json({ error: 'Errore interno (KV)' });
         }
     }
 
-    // Login: genera un nuovo token e invalida eventuali sessioni precedenti per la stessa password
-    // Trova il vecchio token associato a questa password e cancellalo
-    const oldToken = await kv.get(`password:${password}`);
-    if (oldToken) {
-        await kv.del(`token:${oldToken}`);
+    // Altrimenti è un tentativo di login
+    if (!password || password !== correctPassword) {
+        return res.status(403).json({ error: 'Password errata!' });
     }
 
-    // Genera un nuovo token
-    const newToken = randomBytes(32).toString('hex');
-
-    // Salva le associazioni
-    await kv.set(`token:${newToken}`, password); // token -> password
-    await kv.expire(`token:${newToken}`, 30);    // scade dopo 30 secondi senza heartbeat
-    await kv.set(`password:${password}`, newToken); // password -> token
-
-    // Legge il file lista.m3u
+    // Genera nuovo token, invalida il vecchio
     try {
-        const fs = require('fs');
-        const path = require('path');
+        const oldToken = await kv.get(`pass:${password}`);
+        if (oldToken) {
+            await kv.del(`token:${oldToken}`);
+        }
+
+        const newToken = randomBytes(32).toString('hex');
+        await kv.set(`token:${newToken}`, password);
+        await kv.expire(`token:${newToken}`, 30);
+        await kv.set(`pass:${password}`, newToken);
+
+        // Legge il file lista.m3u
         const filePath = path.join(process.cwd(), 'lista.m3u');
         const m3uContent = fs.readFileSync(filePath, 'utf-8');
-        res.status(200).json({ m3u: m3uContent, token: newToken });
-    } catch (error) {
-        res.status(500).json({ error: 'Errore nel leggere la lista' });
+
+        return res.status(200).json({ m3u: m3uContent, token: newToken });
+    } catch (err) {
+        console.error('Errore durante login:', err);
+        return res.status(500).json({ error: 'Errore interno' });
     }
 }
