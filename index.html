@@ -275,7 +275,6 @@ const FALLBACK_ICON = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="ht
 </svg>`);
 
 // ========== BANDIERE COME SVG INLINE (data-URI) ==========
-// Aggiungi altri paesi copiando l'SVG e cambiando il codice
 const flagSVGs = {
     "pt": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23060' d='M0 0h213v480H0z'/%3E%3Cpath fill='%23F00' d='M213 0h427v480H213z'/%3E%3Ccircle cx='213' cy='240' r='106.7' fill='%23FF0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='213' cy='240' r='53.3' fill='%23060'/%3E%3C/svg%3E",
     "ba": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23000' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23FFF' d='M0 0h640v320H0z'/%3E%3Cpath fill='%2300F' d='M0 0h640v160H0z'/%3E%3C/svg%3E",
@@ -294,28 +293,58 @@ const flagSVGs = {
     "pl": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23FFF' d='M0 0h640v240H0z'/%3E%3Cpath fill='%23DC143C' d='M0 240h640v240H0z'/%3E%3C/svg%3E"
 };
 
-// Mappa codice paese → codice SVG (minuscolo)
+// Mappa emoji → codice paese (minuscolo) usato negli SVG
+const emojiToCountryCode = {
+    "🇵🇹": "pt",
+    "🇧🇦": "ba",
+    "🇮🇹": "it",
+    "🇬🇧": "gb",
+    "🇺🇸": "us",
+    "🇪🇸": "es",
+    "🇫🇷": "fr",
+    "🇩🇪": "de",
+    "🇳🇱": "nl",
+    "🇧🇷": "br",
+    "🇦🇷": "ar",
+    "🇷🇴": "ro",
+    "🇬🇷": "gr",
+    "🇲🇽": "mx",
+    "🇵🇱": "pl"
+};
+
+// Mappa codice paese (maiuscolo) → codice SVG
 const countryCodeMap = {
     "PT": "pt", "BA": "ba", "IT": "it", "UK": "gb", "US": "us",
     "ES": "es", "FR": "fr", "DE": "de", "NL": "nl", "BR": "br",
     "AR": "ar", "RO": "ro", "GR": "gr", "MX": "mx", "PL": "pl"
 };
 
-// Estrae codice di due lettere all'inizio
-function extractCountryCode(groupTitle) {
-    const match = groupTitle.trim().match(/^([A-Z]{2})\b/);
-    return match ? match[1] : null;
+// Funzione per ottenere il codice SVG a partire dal group-title
+function getFlagSvgCode(groupTitle) {
+    // Prova a estrarre i primi due caratteri regional indicator (emoji bandiera)
+    const emojiMatch = groupTitle.trim().match(/^(\p{Regional_Indicator}{2})/u);
+    if (emojiMatch) {
+        const emoji = emojiMatch[1];
+        if (emojiToCountryCode[emoji]) {
+            return emojiToCountryCode[emoji];
+        }
+    }
+    // Altrimenti prova con un codice di due lettere maiuscole
+    const codeMatch = groupTitle.trim().match(/^([A-Z]{2})\b/);
+    if (codeMatch && countryCodeMap[codeMatch[1]]) {
+        return countryCodeMap[codeMatch[1]];
+    }
+    return null;
 }
 
-// Sostituisce il codice paese con l'immagine della bandiera SVG
+// Sostituisce l'emoji/codice iniziale con l'immagine SVG della bandiera
 function replaceCountryWithFlagImg(groupTitle) {
-    const code = extractCountryCode(groupTitle);
-    if (!code || !countryCodeMap[code]) return groupTitle;
-    const svgData = flagSVGs[countryCodeMap[code]];
-    if (!svgData) return groupTitle;
-    const imgHtml = `<img src="${svgData}" alt="${code}" class="flag-img" />`;
-    // Rimuove il codice iniziale e lo spazio successivo
-    return imgHtml + groupTitle.replace(/^[A-Z]{2}\s*/, '');
+    const svgCode = getFlagSvgCode(groupTitle);
+    if (!svgCode || !flagSVGs[svgCode]) return groupTitle;
+    const svgData = flagSVGs[svgCode];
+    const imgHtml = `<img src="${svgData}" alt="${svgCode}" class="flag-img" />`;
+    // Rimuove i primi caratteri che rappresentano il paese (emoji o codice di due lettere) e lo spazio successivo
+    return imgHtml + groupTitle.replace(/^(?:\p{Regional_Indicator}{2}|[A-Z]{2})\s*/u, '');
 }
 
 async function init() {
