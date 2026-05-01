@@ -73,8 +73,7 @@
         body { 
             background-color: #000000; 
             color: #f0f6fc; 
-            /* Stack ottimizzato per emoji a colori su ogni dispositivo */
-            font-family: 'Inter', "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Emoji One", "Twemoji Mozilla", sans-serif;
+            font-family: 'Inter', "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
             margin: 0; 
             padding: 20px; 
             display: flex; 
@@ -143,8 +142,8 @@
             letter-spacing: 1px; 
             display: flex; 
             align-items: center; 
-            /* MODIFICA: Priorità a Segoe UI Emoji per Windows (bandiere!) */
-            font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Emoji One", "Twemoji Mozilla", sans-serif;
+            /* Font con supporto emoji */
+            font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Emoji One", sans-serif;
             font-variant-emoji: emoji;
             -webkit-font-variant-emoji: emoji;
             text-rendering: optimizeLegibility;
@@ -272,6 +271,40 @@ const FALLBACK_ICON = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="ht
   <text x="75" y="45" dominant-baseline="middle" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="14" fill="#f0f6fc">TV</text>
 </svg>`);
 
+// Mappa dei codici paese a bandiere emoji
+const countryFlagMap = {
+    "PT": "🇵🇹",
+    "BA": "🇧🇦",
+    "IT": "🇮🇹",
+    "UK": "🇬🇧",
+    "US": "🇺🇸",
+    "ES": "🇪🇸",
+    "FR": "🇫🇷",
+    "DE": "🇩🇪",
+    "NL": "🇳🇱",
+    "BR": "🇧🇷",
+    "AR": "🇦🇷",
+    "RO": "🇷🇴",
+    "GR": "🇬🇷"
+    // Aggiungi altri codici qui
+};
+
+// Sostituisce il codice paese all'inizio del gruppo con la bandiera
+function replaceCountryWithEmoji(groupTitle) {
+    const words = groupTitle.trim().split(' ');
+    const firstWord = words[0].toUpperCase();
+    if (countryFlagMap[firstWord]) {
+        words[0] = countryFlagMap[firstWord];
+        return words.join(' ');
+    }
+    // Controlla se c'è uno spazio dopo il codice (es. "PT PORTOGALLO")
+    const match = groupTitle.match(/^([A-Z]{2})\s/);
+    if (match && countryFlagMap[match[1]]) {
+        return groupTitle.replace(match[1], countryFlagMap[match[1]]);
+    }
+    return groupTitle;
+}
+
 async function init() {
     const video = document.getElementById('video');
     const ui = video['ui'];
@@ -319,13 +352,17 @@ async function init() {
                 const currentCh = {...ch};
                 count++;
 
+                // Trasforma il nome del gruppo con la bandiera emoji
+                const groupWithFlag = replaceCountryWithEmoji(currentCh.group);
+
                 let gridId = `grid-${currentCh.group.replace(/[^\w]/g, '-').toLowerCase()}`;
                 let grid = document.getElementById(gridId);
                 
                 if (!grid) {
                     const container = document.createElement('div');
                     container.className = 'category-container';
-                    container.innerHTML = `<div class="category-title">${currentCh.group}</div><div class="grid" id="${gridId}"></div>`;
+                    // Usiamo groupWithFlag invece di currentCh.group
+                    container.innerHTML = `<div class="category-title">${groupWithFlag}</div><div class="grid" id="${gridId}"></div>`;
                     mainList.appendChild(container);
                     grid = document.getElementById(gridId);
                 }
