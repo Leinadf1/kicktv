@@ -142,6 +142,11 @@
             letter-spacing: 1px; 
             display: flex; 
             align-items: center; 
+            /* Font originale con supporto emoji (usato su mobile) */
+            font-family: 'Inter', "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Emoji One", "Twemoji Mozilla", sans-serif;
+            font-variant-emoji: emoji;
+            -webkit-font-variant-emoji: emoji;
+            text-rendering: optimizeLegibility;
         }
 
         .category-title::before { 
@@ -154,12 +159,13 @@
             border-radius: 2px; 
         }
 
-        /* Stile per l'immagine bandiera (SVG inline) */
+        /* Stile per l'immagine bandiera (usata solo su PC) */
         .flag-img {
-            height: 24px;
+            height: 28px;
             width: auto;
-            margin-right: 8px;
+            margin-right: 10px;
             vertical-align: middle;
+            border-radius: 3px;
         }
 
         .grid { 
@@ -274,26 +280,7 @@ const FALLBACK_ICON = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="ht
   <text x="75" y="45" dominant-baseline="middle" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="14" fill="#f0f6fc">TV</text>
 </svg>`);
 
-// ========== BANDIERE COME SVG INLINE (data-URI) ==========
-const flagSVGs = {
-    "pt": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23060' d='M0 0h213v480H0z'/%3E%3Cpath fill='%23F00' d='M213 0h427v480H213z'/%3E%3Ccircle cx='213' cy='240' r='106.7' fill='%23FF0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='213' cy='240' r='53.3' fill='%23060'/%3E%3C/svg%3E",
-    "ba": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23000' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23FFF' d='M0 0h640v320H0z'/%3E%3Cpath fill='%2300F' d='M0 0h640v160H0z'/%3E%3C/svg%3E",
-    "it": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23009246' d='M0 0h213v480H0z'/%3E%3Cpath fill='%23FFF' d='M213 0h214v480H213z'/%3E%3Cpath fill='%23CE2B37' d='M427 0h213v480H427z'/%3E%3C/svg%3E",
-    "gb": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23012169' d='M0 0h640v480H0z'/%3E%3Cpath stroke='%23FFF' stroke-width='18' d='M0 0l640 480M640 0L0 480'/%3E%3Cpath stroke='%23C8102E' stroke-width='12' d='M0 0l640 480M640 0L0 480'/%3E%3C/svg%3E",
-    "us": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23FFF' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23B22234' d='M0 0h640v37H0zm0 74h640v37H0zm0 74h640v37H0zm0 74h640v37H0zm0 74h640v37H0zm0 74h640v37H0zm0 74h640v37H0z'/%3E%3Cpath fill='%233C3B6E' d='M0 0h256v259H0z'/%3E%3C/svg%3E",
-    "es": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23AA151B' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23F1BF00' d='M0 120h640v240H0z'/%3E%3C/svg%3E",
-    "fr": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%230055A4' d='M0 0h213v480H0z'/%3E%3Cpath fill='%23FFF' d='M213 0h214v480H213z'/%3E%3Cpath fill='%23EF4135' d='M427 0h213v480H427z'/%3E%3C/svg%3E",
-    "de": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23000000' d='M0 0h640v160H0z'/%3E%3Cpath fill='%23DD0000' d='M0 160h640v160H0z'/%3E%3Cpath fill='%23FFCE00' d='M0 320h640v160H0z'/%3E%3C/svg%3E",
-    "nl": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23AE1C28' d='M0 0h640v160H0z'/%3E%3Cpath fill='%23FFF' d='M0 160h640v160H0z'/%3E%3Cpath fill='%2321468B' d='M0 320h640v160H0z'/%3E%3C/svg%3E",
-    "br": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23009B3A' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23FEDF00' d='M320 240L640 480H0z'/%3E%3Ccircle cx='320' cy='240' r='106.7' fill='%23000'/%3E%3C/svg%3E",
-    "ar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%233D8A4A' d='M0 0h640v160H0z'/%3E%3Cpath fill='%23FFF' d='M0 160h640v160H0z'/%3E%3Cpath fill='%230074B8' d='M0 320h640v160H0z'/%3E%3C/svg%3E",
-    "ro": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23002492' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23FFC600' d='M0 0h640v320H0z'/%3E%3Cpath fill='%23CE1126' d='M0 0h640v160H0z'/%3E%3C/svg%3E",
-    "gr": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%230D5EAF' d='M0 0h640v107H0z'/%3E%3Cpath fill='%23FFF' d='M0 107h640v107H0zm0 213h640v107H0z'/%3E%3Cpath fill='%230D5EAF' d='M0 426h640v53H0z'/%3E%3C/svg%3E",
-    "mx": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23006242' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23FFF' d='M0 0h640v320H0z'/%3E%3Cpath fill='%23CE1126' d='M0 0h640v160H0z'/%3E%3C/svg%3E",
-    "pl": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 480'%3E%3Cpath fill='%23FFF' d='M0 0h640v240H0z'/%3E%3Cpath fill='%23DC143C' d='M0 240h640v240H0z'/%3E%3C/svg%3E"
-};
-
-// Mappa emoji → codice paese (minuscolo) usato negli SVG
+// Mappa emoji → codice paese (minuscolo) per FlagCDN
 const emojiToCountryCode = {
     "🇵🇹": "pt",
     "🇧🇦": "ba",
@@ -312,24 +299,27 @@ const emojiToCountryCode = {
     "🇵🇱": "pl"
 };
 
-// Mappa codice paese (maiuscolo) → codice SVG
+// Mappa codice paese (maiuscolo) → codice per flagcdn
 const countryCodeMap = {
     "PT": "pt", "BA": "ba", "IT": "it", "UK": "gb", "US": "us",
     "ES": "es", "FR": "fr", "DE": "de", "NL": "nl", "BR": "br",
     "AR": "ar", "RO": "ro", "GR": "gr", "MX": "mx", "PL": "pl"
 };
 
-// Funzione per ottenere il codice SVG a partire dal group-title
-function getFlagSvgCode(groupTitle) {
-    // Prova a estrarre i primi due caratteri regional indicator (emoji bandiera)
+// Rilevamento dispositivo mobile
+function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent) || 
+           (navigator.maxTouchPoints > 0 && 'ontouchstart' in window);
+}
+
+// Estrae il codice paese (priorità emoji, poi sigla)
+function extractCountryCode(groupTitle) {
+    // Prova emoji
     const emojiMatch = groupTitle.trim().match(/^(\p{Regional_Indicator}{2})/u);
-    if (emojiMatch) {
-        const emoji = emojiMatch[1];
-        if (emojiToCountryCode[emoji]) {
-            return emojiToCountryCode[emoji];
-        }
+    if (emojiMatch && emojiToCountryCode[emojiMatch[1]]) {
+        return emojiToCountryCode[emojiMatch[1]];
     }
-    // Altrimenti prova con un codice di due lettere maiuscole
+    // Prova sigla di due lettere
     const codeMatch = groupTitle.trim().match(/^([A-Z]{2})\b/);
     if (codeMatch && countryCodeMap[codeMatch[1]]) {
         return countryCodeMap[codeMatch[1]];
@@ -337,13 +327,18 @@ function getFlagSvgCode(groupTitle) {
     return null;
 }
 
-// Sostituisce l'emoji/codice iniziale con l'immagine SVG della bandiera
-function replaceCountryWithFlagImg(groupTitle) {
-    const svgCode = getFlagSvgCode(groupTitle);
-    if (!svgCode || !flagSVGs[svgCode]) return groupTitle;
-    const svgData = flagSVGs[svgCode];
-    const imgHtml = `<img src="${svgData}" alt="${svgCode}" class="flag-img" />`;
-    // Rimuove i primi caratteri che rappresentano il paese (emoji o codice di due lettere) e lo spazio successivo
+// Sostituisce con bandiera wavy (solo su PC) o lascia invariato (mobile)
+function formatGroupTitle(groupTitle) {
+    if (isMobile()) {
+        // Su mobile lascia l'emoji originale
+        return groupTitle;
+    }
+    // Su PC sostituisci con immagine wavy da flagcdn
+    const code = extractCountryCode(groupTitle);
+    if (!code) return groupTitle;
+    const flagUrl = `https://flagcdn.com/w80/${code}.png`;
+    const imgHtml = `<img src="${flagUrl}" alt="${code}" class="flag-img" />`;
+    // Rimuove l'emoji o il codice iniziale con eventuale spazio
     return imgHtml + groupTitle.replace(/^(?:\p{Regional_Indicator}{2}|[A-Z]{2})\s*/u, '');
 }
 
@@ -394,8 +389,8 @@ async function init() {
                 const currentCh = {...ch};
                 count++;
 
-                // Genera titolo categoria con bandiera SVG
-                const groupHtml = replaceCountryWithFlagImg(currentCh.group);
+                // Formatta il titolo (bandiera wavy su PC, emoji su mobile)
+                const groupHtml = formatGroupTitle(currentCh.group);
 
                 let gridId = `grid-${currentCh.group.replace(/[^\w]/g, '-').toLowerCase()}`;
                 let grid = document.getElementById(gridId);
