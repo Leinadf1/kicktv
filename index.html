@@ -2,11 +2,14 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="no-referrer">
     <title>KICK TV</title>
 
-    <!-- ICONE -->
+    <!-- ICONE (immagine originale) -->
     <link rel="icon" type="image/png" sizes="512x512" href="https://leinadf1.github.io/kicktv/image.png?v=2">
     <link rel="apple-touch-icon" sizes="180x180" href="https://leinadf1.github.io/kicktv/image.png?v=2">
     <link rel="icon" type="image/png" href="https://leinadf1.github.io/kicktv/image.png?v=2">
@@ -16,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* SPLASH SCREEN CSS */
+        /* SPLASH SCREEN */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -69,7 +72,7 @@
             100% { transform: scale(1); filter: drop-shadow(0 0 0px #05ff12); }
         }
 
-        /* STILI BASE */
+        /* STILI COPIATI DA DASHBOARD PRO (colori KICK TV) */
         body { 
             background-color: #000000; 
             color: #f0f6fc; 
@@ -93,23 +96,8 @@
             box-sizing: border-box; 
         }
         
-        h1 { 
-            font-size: 22px; 
-            font-weight: 700; 
-            color: #05ff12; 
-            margin: 0; 
-            letter-spacing: -0.5px; 
-            text-transform: uppercase;
-        }
-        #chan-count { 
-            font-size: 13px; 
-            color: #05ff12; 
-            font-weight: 600; 
-            background: #161b22; 
-            padding: 4px 12px; 
-            border-radius: 20px;
-            border: 1px solid rgba(5, 255, 18, 0.3);
-        }
+        h1 { font-size: 22px; font-weight: 700; color: #05ff12; margin: 0; letter-spacing: -0.5px; text-transform: uppercase; }
+        #chan-count { font-size: 13px; color: #05ff12; font-weight: 600; background: #161b22; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(5,255,24,0.3); }
         
         .player-container { 
             width: 100%; 
@@ -120,17 +108,9 @@
         }
         video { width: 100%; aspect-ratio: 16/9; display: block; }
 
-        #main-list {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
+        #main-list { width: 100%; display: flex; flex-direction: column; }
 
-        .category-container { 
-            width: 100%; 
-            margin-bottom: 45px; 
-            box-sizing: border-box; 
-        }
+        .category-container { width: 100%; margin-bottom: 45px; box-sizing: border-box; }
         .category-title { 
             font-size: 16px; 
             color: #05ff12; 
@@ -208,6 +188,7 @@
             line-height: 1.3;
         }
 
+        /* Stile per bandiera su PC */
         .flag-img {
             height: 28px;
             width: auto;
@@ -216,24 +197,44 @@
             border-radius: 3px;
         }
 
-        /* MODIFICA MOBILE (Copiata esattamente dalla foto 2) */
+        /* MEDIA QUERY MOBILE (IDENTICA A DASHBOARD PRO) */
         @media (max-width: 600px) {
             .grid { 
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; 
-                gap: 12px !important; 
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 12px;
             }
-            .logo-box { 
-                height: 80px !important; 
-                padding: 10px !important; 
-            }
-            .name { 
-                font-size: 11.5px !important; 
-            }
-            body { 
-                padding: 10px !important; 
-            }
+            .logo-box { height: 80px; padding: 10px; }
+            .name { font-size: 11.5px; }
+            body { padding: 10px; }
         }
     </style>
+
+    <!-- FORZATURA MOBILE IMMEDIATA VIA JS -->
+    <script>
+    (function forceMobileCSS() {
+        if (/Mobi|Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent) || 
+            (navigator.maxTouchPoints > 0 && 'ontouchstart' in window)) {
+            var style = document.createElement('style');
+            style.textContent = `
+                .grid { 
+                    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; 
+                    gap: 12px !important; 
+                }
+                .logo-box { 
+                    height: 80px !important; 
+                    padding: 10px !important; 
+                }
+                .name { 
+                    font-size: 11.5px !important; 
+                }
+                body { 
+                    padding: 10px !important; 
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    })();
+    </script>
 </head>
 <body>
 
@@ -256,11 +257,11 @@
     <div id="main-list"></div>
 
 <script>
-// Gestione Splash Screen
+// Gestione rimozione Splash Screen
 window.addEventListener('load', () => {
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
-        if(splash) splash.classList.add('fade-out');
+        splash.classList.add('fade-out');
     }, 3000);
 });
 
@@ -270,11 +271,13 @@ document.getElementById('splash-screen').addEventListener('click', function() {
 
 const SOURCE_API = "lista.m3u";
 
+/* Icona di fallback per i canali */
 const FALLBACK_ICON = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 80" fill="none">
   <rect width="150" height="80" fill="#161b22"/>
   <text x="75" y="45" dominant-baseline="middle" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="14" fill="#f0f6fc">TV</text>
 </svg>`);
 
+// Mappa emoji → codice paese
 const emojiToCountryCode = {
     "🇵🇹": "pt", "🇧🇦": "ba", "🇮🇹": "it", "🇬🇧": "gb", "🇺🇸": "us",
     "🇪🇸": "es", "🇫🇷": "fr", "🇩🇪": "de", "🇳🇱": "nl", "🇧🇷": "br",
@@ -288,7 +291,8 @@ const countryCodeMap = {
 };
 
 function isMobile() {
-    return window.innerWidth <= 600;
+    return /Mobi|Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent) || 
+           (navigator.maxTouchPoints > 0 && 'ontouchstart' in window);
 }
 
 function extractCountryCode(groupTitle) {
@@ -304,7 +308,8 @@ function formatGroupTitle(groupTitle) {
     const code = extractCountryCode(groupTitle);
     if (!code) return groupTitle;
     const flagUrl = `https://flagcdn.com/w80/${code}.png`;
-    return `<img src="${flagUrl}" alt="${code}" class="flag-img" />` + groupTitle.replace(/^(?:\p{Regional_Indicator}{2}|[A-Z]{2})\s*/u, '');
+    const imgHtml = `<img src="${flagUrl}" alt="${code}" class="flag-img" />`;
+    return imgHtml + groupTitle.replace(/^(?:\p{Regional_Indicator}{2}|[A-Z]{2})\s*/u, '');
 }
 
 async function init() {
@@ -317,6 +322,14 @@ async function init() {
     player.configure({ 
         manifest: { dash: { ignoreDrmInfo: true } }, 
         streaming: { jumpLargeGaps: true, retryParameters: { maxAttempts: 3 } }
+    });
+
+    player.getNetworkingEngine().registerRequestFilter((type, request) => {
+        if (request.uris[0].includes('pluscdn.pl') || request.uris[0].includes('t-mobile.pl')) {
+            request.allowCrossOrigin = true;
+            request.headers['User-Agent'] = 'Mozilla/5.0 (Web0S; Linux; SmartTV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.199 Safari/537.36';
+            delete request.headers['Origin']; delete request.headers['Referer'];
+        }
     });
 
     try {
@@ -345,14 +358,15 @@ async function init() {
                 const url = line;
                 const currentCh = {...ch};
                 count++;
-                
+                const groupHtml = formatGroupTitle(currentCh.group);
+
                 let gridId = `grid-${currentCh.group.replace(/[^\w]/g, '-').toLowerCase()}`;
                 let grid = document.getElementById(gridId);
                 
                 if (!grid) {
                     const container = document.createElement('div');
                     container.className = 'category-container';
-                    container.innerHTML = `<div class="category-title">${formatGroupTitle(currentCh.group)}</div><div class="grid" id="${gridId}"></div>`;
+                    container.innerHTML = `<div class="category-title">${groupHtml}</div><div class="grid" id="${gridId}"></div>`;
                     mainList.appendChild(container);
                     grid = document.getElementById(gridId);
                 }
@@ -382,7 +396,6 @@ async function init() {
         chanCount.innerText = count + " CANALI";
     } catch(e) { console.error("Errore API:", e); }
 }
-
 document.addEventListener('shaka-ui-loaded', init);
 </script>
 </body>
