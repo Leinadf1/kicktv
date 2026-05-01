@@ -1,67 +1,63 @@
-import { kv } from '@vercel/kv';
-import { randomBytes } from 'crypto';
-import fs from 'fs';
-import path from 'path';
+import { createClient } from '@vercel/kv';
 
 export default async function handler(req, res) {
     // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-heartbeat, x-token');
-    if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
-    }
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-heartbeat');
 
-    if (req.method !== 'POST') {
-        res.status(405).json({ error: 'Metodo non permesso' });
-        return;
-    }
+    if (req.method === 'OPTIONS') return res.status(200).end();
 
-    const { password } = req.body;
-    const tokenFromHeader = req.headers['x-token'];
-    const correctPassword = process.env.ACCESS_PASSWORD;
+    // Crea il client KV utilizzando le variabili iniettate da Vercel
+    const kv = createClient({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN,
+    });
 
-    // Se la richiesta è un heartbeat (contiene x-token)
-    if (tokenFromHeader) {
-        try {
-            const storedPassword = await kv.get(`token:${tokenFromHeader}`);
-            if (storedPassword === correctPassword) {
-                // Rinnova TTL di 30 secondi
-                await kv.expire(`token:${tokenFromHeader}`, 30);
-                return res.status(200).json({ status: 'ok', token: tokenFromHeader });
-            } else {
-                return res.status(401).json({ error: 'Sessione scaduta o invalidata' });
-            }
-        } catch (kvError) {
-            console.error('KV error:', kvError);
-            return res.status(500).json({ error: 'Errore interno (KV)' });
-        }
-    }
-
-    // Altrimenti è un tentativo di login
-    if (!password || password !== correctPassword) {
-        return res.status(403).json({ error: 'Password errata!' });
-    }
-
-    // Genera nuovo token, invalida il vecchio
+    // Leggi il corpo della richiesta
+    let body = {};
     try {
-        const oldToken = await kv.get(`pass:${password}`);
-        if (oldToken) {
-            await kv.del(`token:${oldToken}`);
-        }
+        const buffers = [];
+        for await (const chunk of req) { buffers.push(chunk); }
+        const data = Buffer.concat(buffers).toString();
+        body = data ? JSON.parse(data) : {};
+    } catch (e) {
+        body = {};
+    }
 
-        const newToken = randomBytes(32).toString('hex');
-        await kv.set(`token:${newToken}`, password);
-        await kv.expire(`token:${newToken}`, 30);
-        await kv.set(`pass:${password}`, newToken);
+    const psw = body.password ? body.password.trim() : '';
+    const correctPassword = process.env.ACCESS_PASSWORD || '';
 
-        // Legge il file lista.m3u
+    // Verifica password
+    if (!psw || psw !== correctPassword) {
+        return res.status(401).json({ error: 'Password errata' });
+    }
+
+    const sessionKey = `session_${psw}`;
+
+    // Heartbeat: rinnova sessione (TTL 25 secondi)
+    if (req.headers['x-heartbeat'] === 'true') {
+        await kv.set(sessionKey, 'active', { ex: 25 });
+        return res.status(200).json({ status: 'ok' });
+    }
+
+    // Controllo sessione già attiva (impedisce accessi simultanei)
+    const isOccupied = await kv.get(sessionKey);
+    if (isOccupied) {
+        return res.status(403).json({ error: 'Accesso negato: sessione già attiva' });
+    }
+
+    // Nuovo accesso: imposta la sessione
+    await kv.set(sessionKey, 'active', { ex: 25 });
+
+    // Legge il file lista.m3u dalla root del progetto
+    try {
+        const fs = require('fs');
+        const path = require('path');
         const filePath = path.join(process.cwd(), 'lista.m3u');
         const m3uContent = fs.readFileSync(filePath, 'utf-8');
-
-        return res.status(200).json({ m3u: m3uContent, token: newToken });
-    } catch (err) {
-        console.error('Errore durante login:', err);
-        return res.status(500).json({ error: 'Errore interno' });
+        return res.status(200).send(m3uContent);
+    } catch (error) {
+        return res.status(500).json({ error: 'Errore nel leggere la lista' });
     }
 }
