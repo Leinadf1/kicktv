@@ -11,7 +11,9 @@
     <link rel="apple-touch-icon" href="https://leinadf1.github.io/kicktv/image.png">
     <link rel="apple-touch-icon" sizes="152x152" href="https://leinadf1.github.io/kicktv/image.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://leinadf1.github.io/kicktv/image.png">
+    <link rel="icon" sizes="192x192" href="https://leinadf1.github.io/kicktv/image.png">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="KICK TV">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.11.11/shaka-player.ui.min.js"></script>
@@ -19,6 +21,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* FIX BANDIERE PER PC */
+        @font-face {
+            font-family: "EmojiFont";
+            src: local("Apple Color Emoji"), local("Segoe UI Emoji"), local("Segoe UI Symbol"), local("Noto Color Emoji");
+        }
+
         /* SPLASH SCREEN CSS */
         #splash-screen {
             position: fixed;
@@ -72,11 +80,10 @@
             100% { transform: scale(1); filter: drop-shadow(0 0 0px #05ff12); }
         }
 
-        /* STILI ORIGINALI */
         body { 
             background-color: #000000; 
             color: #f0f6fc; 
-            font-family: 'Inter', "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; 
+            font-family: 'Inter', "EmojiFont", sans-serif; 
             margin: 0; 
             padding: 20px; 
             display: flex; 
@@ -145,7 +152,7 @@
             letter-spacing: 1px; 
             display: flex; 
             align-items: center; 
-            font-family: 'Inter', "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+            font-family: "EmojiFont", 'Inter', sans-serif;
         }
 
         .category-title::before { 
@@ -231,7 +238,6 @@
 </head>
 <body>
 
-    <!-- SCHERMATA DI BENVENUTO -->
     <div id="splash-screen">
         <img src="https://leinadf1.github.io/kicktv/image.png" alt="Logo" class="splash-logo">
         <div class="splash-title">Kick Streaming</div>
@@ -250,11 +256,10 @@
     <div id="main-list"></div>
 
 <script>
-// Gestione rimozione Splash Screen
 window.addEventListener('load', () => {
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
-        splash.classList.add('fade-out');
+        if(splash) splash.classList.add('fade-out');
     }, 3000);
 });
 
@@ -311,14 +316,12 @@ async function init() {
                 const currentCh = {...ch};
                 count++;
 
-                // Generiamo un ID pulito per la griglia ma usiamo il nome originale per il titolo
                 let gridId = `grid-${currentCh.group.replace(/[^\w]/g, '-').toLowerCase()}`;
                 let grid = document.getElementById(gridId);
                 
                 if (!grid) {
                     const container = document.createElement('div');
                     container.className = 'category-container';
-                    // RIMOSSO .toUpperCase() per permettere alle bandiere di funzionare
                     container.innerHTML = `<div class="category-title">${currentCh.group}</div><div class="grid" id="${gridId}"></div>`;
                     mainList.appendChild(container);
                     grid = document.getElementById(gridId);
