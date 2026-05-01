@@ -69,7 +69,7 @@
             100% { transform: scale(1); filter: drop-shadow(0 0 0px #05ff12); }
         }
 
-        /* STILI BASE (Desktop) */
+        /* STILI BASE (desktop) */
         body { 
             background-color: #000000; 
             color: #f0f6fc; 
@@ -217,7 +217,7 @@
             border-radius: 3px;
         }
 
-        /* MOBILE: forzato con !important per sovrascrivere qualsiasi cache */
+        /* MOBILE: Copiato esattamente da Dashboard PRO */
         @media (max-width: 768px) {
             .grid { 
                 grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; 
@@ -232,9 +232,6 @@
             }
             body { 
                 padding: 10px !important; 
-            }
-            .category-title { 
-                font-size: 16px; /* rimane uguale */ 
             }
         }
     </style>
@@ -260,6 +257,21 @@
     <div id="main-list"></div>
 
 <script>
+// Forza immediatamente le regole mobile se il dispositivo è touch
+(function applyMobileFix() {
+    if (/Mobi|Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent) || 
+        (navigator.maxTouchPoints > 0 && 'ontouchstart' in window)) {
+        const style = document.createElement('style');
+        style.textContent = `
+            .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; gap: 12px !important; }
+            .logo-box { height: 80px !important; padding: 10px !important; }
+            .name { font-size: 11.5px !important; }
+            body { padding: 10px !important; }
+        `;
+        document.head.appendChild(style);
+    }
+})();
+
 // Gestione rimozione Splash Screen
 window.addEventListener('load', () => {
     setTimeout(() => {
